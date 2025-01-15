@@ -1,0 +1,42 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Request Jam
+{% endblock %}
+
+
+{% block content %}
+    
+    
+<div class="row my-5">
+  <div class="col-lg-8 py-2"><h1>My Spotify PlayLists</h1>
+  </div>
+ 
+</div>
+
+
+{% for x in playlists %}
+    <div class="row border bg-light g-12 py-2 row-cols-1 row-cols-lg-4 align-center">
+            
+        <div class="col-lg-4 py-2">
+        <h4>{{ x.name }}</h4>
+        </div>
+        <div class="col-lg-4 py-2">
+          <h4>{{ x.id }}</h4>
+          </div>
+        
+        <div class="col-lg-2 py-2">
+          <h4>Tracks: {{ x.tracks.total }}</h4>
+        </div>
+
+        
+        <div class="col-lg-2 py-2">
+          <a class="btn btn-primary" href="importspotify/{{ x.id }}">Import into Listed Below</a>
+        </div>
+
+
+    </div>
+ {% endfor %}
+      
+   
+{% endblock %}

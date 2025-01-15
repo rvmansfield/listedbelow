@@ -1,0 +1,50 @@
+{% extends "master.html" %}
+
+{% load static %}
+
+{% block title %}
+  Request Jam
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div class="mt-4 py-2 p-3 bg-primary text-white rounded">
+  <h1>Show off your playlists....</h1>
+  <ol>
+      <li>Artists create lists
+      <li>Anyone can add song requests
+      <li>Get votes to see what is popular
+      </ol>  
+</div>
+
+<hr>
+{% for x in topLists %}
+    <div class="row border bg-light g-12 py-2 row-cols-1 row-cols-lg-4 align-center">
+        <div class="col-lg-2 py-2">
+        <h2><img src="/media/{{ x.image }}" width="120"></h2>
+        </div>
+        <div class="col-lg-4 py-2">
+        <h2>{{ x.title }}</h2>
+        </div>
+        <div class="col-lg-3 py-2">
+        <h5>{{ x.description }}</h5>
+        </div>
+        <div class="col-lg-2 py-2">
+          <h4>Added By {{ x.createdBy }}</h4>
+          </div>
+        
+        <div class="col-lg-1 py-2">
+          <a class="btn btn-primary" href="lists/{{ x.id }}">View List</a>
+        </div>
+
+
+    </div>
+ {% endfor %}
+
+
+
+{% endblock %}

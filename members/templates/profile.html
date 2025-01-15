@@ -1,0 +1,66 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+  Player Metrix
+{% endblock %}
+
+
+
+{% block content %}
+<div class="row">
+    <div class="my-4"><h1>Profile for {{ user.username }}</h1>
+    </div>
+     
+</div>
+        
+      {% if user_form.errors %}
+      ERROR
+          <div class="alert alert-danger alert-dismissible" role="alert">
+              <div id="form_errors">
+                  {% for key, value in user_form.errors.items %}
+                      <strong>{{ value }}</strong>
+                  {% endfor %}
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+      
+      {% endif %}
+      <div class="form-content">
+          <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+                
+              <div class="row">
+                    
+                    <div class="col">
+                      
+                      <div class="form-group">
+                          
+                        <div class="row">
+                                
+                            <div class="col-sm-6 py-2"><label class="fw-bold">First Name</label>{{ user_form.first_name }}</div>
+                            <div class="col-sm-6 py-2"><label class="fw-bold">Last Name</label>{{ user_form.last_name }}</div>
+                            
+                        </div>
+                        <div class="row">
+                                
+                            <div class="col-sm-6 py-2"><label class="fw-bold">Email</label>{{ user_form.email }}</div>
+                            
+                            
+                        </div>
+                      </div>
+                      
+                      
+                      
+                  </div>
+              </div>
+              <br><br>
+              <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+              <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+          </form>
+      </div>
+        
+           
+
+{% endblock %}

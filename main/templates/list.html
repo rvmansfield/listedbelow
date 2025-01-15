@@ -1,0 +1,92 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Request Jam
+{% endblock %}
+
+
+{% block content %}
+
+
+<script>
+  listForm.reset();
+</script>  
+
+<div class="row">
+  <div class="col-auto">
+    <img src="/media/{{ listinfo.image }}" width="200">
+    </div>
+  <div class="col-auto"><h1>{{ listinfo.title }}</h1>
+  </div>
+  <div class="col-auto py-3"><h4>{{ listinfo.description }}</h4>
+  </div>
+  
+  <div class="col-auto"><h4>created by {{ listinfo.createdBy }}</h4>
+    
+  </div>
+
+  
+</div>
+{% if listinfo.allowAdds == True or listowner == 1 %}
+<div class="row">
+  <div class="my-4"> 
+    <form method="POST" class="post-form" id="songForm" action="">  
+      {% csrf_token %}  
+    
+      <div class="row border border-dark rounded-3 bg-light">
+        <div class="col-sm-5 py-2"><label class="fw-bold">Title</label>{{ songform.song_title }}</div>
+        <div class="col-sm-5 py-2"><label class="fw-bold">Artist</label>{{ songform.song_artist }}</div>
+        <div class="col-sm-2 py-4"><button type="submit" class="btn btn-primary">Add Song</button></div>
+      </div>
+      
+      
+    </form>
+  </div>
+   
+</div>
+{% endif %}
+
+{% for x in listsongs %}
+
+    <div class="row border bg-light g-12 py-2 row-cols-1 row-cols-lg-5 align-center">
+        
+        <div class="col-lg-4 py-2">
+        <h2>{{ x.song_title }}</h2>
+        </div>
+        
+        <div class="col-lg-5 py-2">
+        <h4>{{ x.song_artist }}</h4>
+        </div>
+        <div class="col-lg-1 py-2">
+          <h4>
+        {% for vote in votes %}
+        
+          {% if x.id == vote.song %}
+            
+              {{ vote.count }} votes</h4>
+             
+          {% endif %}
+
+        {% endfor %}
+         
+        </div>
+        
+
+        {% if listinfo.allowVotes == True %}
+          <div class="col-lg-1 py-2">
+            <h4><a class="btn btn-outline-primary" href="/vote/{{ listinfo.id }}/{{ x.id }}">Vote</a></h4>
+          </div>
+        {% endif %}  
+          <div class="col">
+        
+          <h4>{{ x.createdBy }}</h4>
+        </div>
+        
+
+
+    </div>
+ {% endfor %}
+
+
+   
+{% endblock %}

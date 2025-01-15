@@ -1,0 +1,98 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Request Jam
+{% endblock %}
+
+
+{% block content %}
+    
+    
+<div class="row my-5">
+  <div class="col-lg-8 py-2"><h1>My Lists</h1>
+  </div>
+  <div class="col-lg-2 py-2"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+  Add A List
+</button>
+</div>
+<div class="col-lg-2 py-2"><a href="/spotifylists" type="button" class="btn btn-secondary">
+  Import Spotify Playlist
+</a>
+  
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add A List</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" class="post-form" id="listForm" action="">  
+          {% csrf_token %}  
+          <div class="row">
+            <div class="col-sm-12 py-2"><label class="fw-bold">Title</label>{{ listform.title }}</div>
+            <div class="col-sm-12 py-2"><label class="fw-bold">Description</label>{{ listform.description }}</div>
+            
+          </div>
+          
+          <div class="row">
+            <div class="col-sm-12 py-2"><label class="fw-bold">Allow Others to Add Songs</label> {{ listform.allowAdds }}</div>
+            <div class="col-sm-12 py-2"><label class="fw-bold">Allow Song Votes</label> {{ listform.allowVotes }}</div>
+            <div class="col-sm-12 py-4"><button type="submit" class="btn btn-primary">Add List</button></div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="spotifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Import Spotify Playlist</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        BODY
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% for x in allLists %}
+    <div class="row border bg-light g-12 py-2 row-cols-1 row-cols-lg-4 align-center">
+        <div class="col-lg-2 py-2">
+        <h2><img src="/media/{{ x.image }}" width="120"></h2>
+        </div>
+        <div class="col-lg-4 py-2">
+        <h2>{{ x.title }}</h2>
+        </div>
+        <div class="col-lg-4 py-2">
+        <h4>{{ x.description }}</h4>
+        </div>
+        <div class="col-lg-1 py-2">
+          <h4>{{ x.dateCreated }}</h4>
+        </div>
+        
+        <div class="col-lg-1 py-2">
+          <a class="btn btn-primary" href="lists/{{ x.id }}">Details</a>
+        </div>
+
+
+    </div>
+ {% endfor %}
+      
+   
+{% endblock %}

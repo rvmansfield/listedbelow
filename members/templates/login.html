@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+{% load static %}
+{% block title %}
+  Player Metrix
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+
+    <div class="form-content my-3 p-3">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-lg-7">
+                  <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
+                      <div class="card-header justify-content-center">
+                          <h3 class="font-weight-light my-4 text-center">Log In</h3>
+                      </div>
+                      <div class="card-body">
+
+                        <form action="" method=POST>
+
+                          {% csrf_token %}
+                          
+                          <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+                            
+                          </div>
+                          <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password">
+                          </div>
+                          
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+
+
+
+                      </div>
+                      <div class="card-footer text-center">
+                          <div class="small">
+                              <a href="/signup">Don't have an account? Create one now.</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{% endblock %}
