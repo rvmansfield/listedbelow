@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load qr_code %}
+
+{% block title %}Settings — {{ music_list.title }} — ListedBelow{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'list_detail' pk=music_list.pk %}" class="btn btn-outline-secondary btn-sm">
+      <i class="bi bi-arrow-left"></i>
+    </a>
+    <h2 class="mb-0"><i class="bi bi-gear text-primary"></i> {{ music_list.title }} — Settings</h2>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Left column: settings + share link -->
+    <div class="col-lg-7">
+
+      <!-- Sharing & Permissions -->
+      <div class="card border-secondary mb-4">
+        <div class="card-header border-secondary"><i class="bi bi-toggles"></i> Permissions</div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="settings">
+            {% for field in settings_form %}
+            <div class="form-check form-switch mb-3">
+              {{ field }}
+              <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {% if field.help_text %}
+              <div class="form-text text-muted small">{{ field.help_text }}</div>
+              {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Share Link -->
+      <div class="card border-secondary mb-4">
+        <div class="card-header border-secondary"><i class="bi bi-link-45deg"></i> Share Link</div>
+        <div class="card-body">
+          <p class="text-muted small">Anyone with this link can view the list when logged in.</p>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control border-secondary"
+                   id="shareUrl" value="{{ share_url }}" readonly>
+            <button class="btn btn-outline-secondary" onclick="copyShareUrl()" title="Copy link">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
+          <div class="text-center">
+            {% qr_from_text share_url size=8 %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Invite by Email -->
+      <div class="card border-secondary mb-4">
+        <div class="card-header border-secondary"><i class="bi bi-envelope-plus"></i> Invite by Email</div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="invite">
+            <div class="input-group">
+              {{ invite_form.email }}
+              <button type="submit" class="btn btn-primary">Send Invite</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column: collaborators + pending invites -->
+    <div class="col-lg-5">
+
+      <!-- Collaborators -->
+      <div class="card border-secondary mb-4">
+        <div class="card-header border-secondary">
+          <i class="bi bi-people"></i> Collaborators ({{ collaborators.count }})
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for collab in collaborators %}
+          <li class="list-group-item bg-transparent border-secondary d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-person-circle"></i> {{ collab.user.username }}
+              {% if collab.is_owner %}
+              <span class="badge bg-warning text-dark ms-1">Owner</span>
+              {% endif %}
+            </div>
+            {% if not collab.is_owner %}
+            <form method="post" action="{% url 'collab_remove' pk=music_list.pk collab_pk=collab.pk %}"
+                  onsubmit="return confirm('Remove {{ collab.user.username }}?')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-person-dash"></i>
+              </button>
+            </form>
+            {% endif %}
+          </li>
+          {% empty %}
+          <li class="list-group-item bg-transparent border-secondary text-muted">No collaborators yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Pending Invites -->
+      <div class="card border-secondary">
+        <div class="card-header border-secondary">
+          <i class="bi bi-envelope-open"></i> Pending Invites ({{ pending_invites.count }})
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for invite in pending_invites %}
+          <li class="list-group-item bg-transparent border-secondary d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-envelope"></i> {{ invite.email }}
+              <div class="text-muted" style="font-size:.75rem;">Sent {{ invite.created_at|date:"M j" }}</div>
+            </div>
+            <form method="post" action="{% url 'invite_revoke' pk=music_list.pk inv_pk=invite.pk %}"
+                  onsubmit="return confirm('Revoke invite for {{ invite.email }}?')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger" title="Revoke">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </form>
+          </li>
+          {% empty %}
+          <li class="list-group-item bg-transparent border-secondary text-muted">No pending invites.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyShareUrl() {
+  const el = document.getElementById('shareUrl');
+  navigator.clipboard.writeText(el.value).then(() => {
+    const btn = el.nextElementSibling;
+    btn.innerHTML = '<i class="bi bi-check-lg"></i>';
+    setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i>', 2000);
+  });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Private List — ListedBelow{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+      <i class="bi bi-lock display-1 text-muted"></i>
+      <h2 class="mt-3">This list is private</h2>
+      <p class="text-muted">
+        <strong>{{ music_list.title }}</strong> is only accessible to its collaborators.
+        Ask the owner to share their invite link with you.
+      </p>
+      <a href="{% url 'dashboard' %}" class="btn btn-primary mt-2">Go to Dashboard</a>
+      <a href="{% url 'index' %}" class="btn btn-outline-secondary mt-2 ms-2">Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

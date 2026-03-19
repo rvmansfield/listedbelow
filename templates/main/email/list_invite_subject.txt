@@ -1,0 +1,1 @@
+{{ invite.invited_by.username }} invited you to join "{{ invite.music_list.title }}" on ListedBelow

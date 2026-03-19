@@ -1,0 +1,16 @@
+Hi there,
+
+{{ invite.invited_by.username }} has invited you to join their music list "{{ invite.music_list.title }}" on ListedBelow.
+
+{% if invite.music_list.description %}About the list:
+{{ invite.music_list.description }}
+
+{% endif %}Click the link below to accept your invitation:
+
+{{ accept_url }}
+
+Once you join, you can add songs and vote on your favourites.
+
+If you weren't expecting this invite, you can safely ignore this email.
+
+— The ListedBelow Team

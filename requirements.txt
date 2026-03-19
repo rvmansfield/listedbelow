@@ -1,0 +1,10 @@
+Django>=5.0,<5.2
+psycopg2-binary>=2.9
+django-allauth>=65.0
+PyJWT>=2.8
+cryptography>=42.0
+django-qr-code>=4.0
+whitenoise>=6.6
+requests>=2.31
+python-decouple>=3.8
+Pillow>=10.0

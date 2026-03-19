@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Out — ListedBelow{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-5 text-center mt-5">
+      <i class="bi bi-box-arrow-right display-1 text-muted"></i>
+      <h2 class="mt-3">Sign out of ListedBelow?</h2>
+      <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger mt-3 px-5">Yes, sign me out</button>
+      </form>
+      <a href="{% url 'index' %}" class="btn btn-link mt-2">Cancel</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

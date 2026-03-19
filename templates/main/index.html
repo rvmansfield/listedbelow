@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ListedBelow — Collaborative Music Lists{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<div class="container">
+  <div class="row align-items-center py-4">
+    <div class="col-lg-6">
+      <!-- Feature highlights -->
+      <div class="d-flex align-items-start mb-3">
+        <i class="bi bi-list-check fs-2 text-primary me-3"></i>
+        <div>
+          <h5>Build Lists</h5>
+          <p class="text-muted">Create themed music lists and manage them with ease.</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-start mb-3">
+        <i class="bi bi-people fs-2 text-primary me-3"></i>
+        <div>
+          <h5>Collaborate</h5>
+          <p class="text-muted">Invite others via email or shareable link to add their songs.</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-start">
+        <i class="bi bi-hand-thumbs-up fs-2 text-primary me-3"></i>
+        <div>
+          <h5>Vote</h5>
+          <p class="text-muted">Upvote your favourites and watch the list rank itself.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 text-center mt-5 mt-lg-0">
+      <div class="display-1 opacity-75">
+        <img src="{% static 'main/images/home.png' %}" alt="Home" width="300" id="hero-image">
+      </div>
+      <div class="mt-3">
+        {% if user.is_authenticated %}
+        <a href="{% url 'list_create' %}" class="btn btn-primary btn-lg me-2">
+          <i class="bi bi-plus-circle"></i> Create a List
+        </a>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-lg">
+          My Lists
+        </a>
+        {% else %}
+        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg me-2">
+          Get Started Free
+        </a>
+        <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-lg">
+          Sign In
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if recent_lists %}
+  <div class="py-4 border-top border-secondary">
+    <h3 class="mb-4">Recent Lists</h3>
+    <div class="row g-3">
+      {% for music_list in recent_lists %}
+      <div class="col-md-4">
+        <div class="card border-secondary h-100">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'list_detail' pk=music_list.pk %}" class="text-decoration-none text-reset">{{ music_list.title }}</a>
+            </h5>
+            {% if music_list.description %}
+            <p class="card-text text-muted small">{{ music_list.description|truncatechars:80 }}</p>
+            {% endif %}
+            <p class="text-muted small mb-0">
+              <i class="bi bi-person"></i> {{ music_list.created_by.username }}
+              &nbsp;·&nbsp;
+              <i class="bi bi-music-note"></i> {{ music_list.list_songs.count }} songs
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
