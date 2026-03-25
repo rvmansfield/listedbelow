@@ -1,0 +1,104 @@
+/* ListedBelow — Global Styles */
+
+/* ── Colour palette ─────────────────────────────────────────────────────────── */
+:root {
+  --lb-bg:      #FFFFFF;
+  --lb-surface: #F1EFE8;
+  --lb-text:    #2C2C2A;
+  --lb-muted:   #888780;
+  --lb-accent:  #185FA5;
+  --lb-border:  #D8D6CE;
+
+  /* Bootstrap overrides */
+  --bs-body-bg:           var(--lb-bg);
+  --bs-body-color:        var(--lb-text);
+  --bs-primary:           var(--lb-accent);
+  --bs-primary-rgb:       24, 95, 165;
+  --bs-link-color:        var(--lb-accent);
+  --bs-link-hover-color:  #0f4a82;
+
+  --bs-border-color:      var(--lb-border);
+  --bs-secondary-bg:      var(--lb-surface);
+
+  /* Cards */
+  --bs-card-bg:           var(--lb-surface);
+  --bs-card-border-color: var(--lb-border);
+
+  /* Dropdowns */
+  --bs-dropdown-bg:            var(--lb-surface);
+  --bs-dropdown-border-color:  var(--lb-border);
+  --bs-dropdown-link-hover-bg: #e4e2da;
+
+  /* Input / form */
+  --bs-form-control-bg: var(--lb-bg);
+  --bs-border-radius:   0.4rem;
+}
+
+/* Buttons */
+.btn-primary {
+  --bs-btn-bg:                 var(--lb-accent);
+  --bs-btn-border-color:       var(--lb-accent);
+  --bs-btn-hover-bg:           #0f4a82;
+  --bs-btn-hover-border-color: #0f4a82;
+  --bs-btn-active-bg:          #0b3a66;
+  --bs-btn-color:              #ffffff;
+  --bs-btn-hover-color:        #ffffff;
+  --bs-btn-active-color:       #ffffff;
+}
+
+.btn-outline-primary {
+  --bs-btn-color:              var(--lb-accent);
+  --bs-btn-border-color:       var(--lb-accent);
+  --bs-btn-hover-bg:           var(--lb-accent);
+  --bs-btn-hover-border-color: var(--lb-accent);
+  --bs-btn-active-bg:          #0f4a82;
+}
+
+/* Badges */
+.badge.bg-primary { background-color: var(--lb-accent) !important; }
+
+/* Muted text */
+.text-muted { color: var(--lb-muted) !important; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Truncate long text in cards */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Song row min-width for title */
+.min-width-0 {
+  min-width: 0;
+}
+
+/* Vote button pulse animation */
+@keyframes votePopIn {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.vote-btn.voted {
+  animation: votePopIn 0.2s ease;
+}
+
+/* Spotify result cards */
+.spotify-result-card {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.spotify-result-card:hover {
+  background-color: rgba(24, 95, 165, 0.07);
+}
