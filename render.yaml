@@ -9,6 +9,7 @@ services:
     plan: free
     name: listedbelow
     runtime: python
+    pythonVersion: "3.13.2"
     buildCommand: './build.sh'
     startCommand: 'python -m gunicorn listedbelow.asgi:application -k uvicorn.workers.UvicornWorker'
     envVars:
